@@ -1,0 +1,64 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+
+  "title": {
+    "text": "GDP Per Capita",
+    "subtitle": "Time series of GDP per capita in 6 selected countries (1990 – 2022)",
+    "subtitleFontSize": 10,
+    "anchor": "start",
+    "color": "black"
+  },
+
+  "width": 300,
+  "height": 300,
+
+  "mark": {
+    "type": "line",
+    "interpolate": "linear",
+    "strokeWidth": 2,
+    "opacity": 1
+  },
+
+  "data": {
+    "url": "https://raw.githubusercontent.com/ALatrofa/ALatrofa.github.io/refs/heads/main/chart2_GDP_pc_6_countries.csv",
+    "format": {"type": "csv", "parse": {"Year": "date"}}
+  },
+
+  "transform": [
+    {"calculate": "year(datum.Year)", "as": "year"},
+    {"filter": "datum.year > 1980"}
+  ],
+
+  "encoding": {
+    "x": {
+      "field": "Year",
+      "type": "temporal",
+      "title": null,
+      "axis": {"grid": false}
+    },
+    "y": {
+      "field": "GDP pc",
+      "type": "quantitative",
+      "title": null,
+      "axis": {"format": "$,.0f"}
+    },
+    "color": {
+      "field": "Country Name",
+      "title": null,
+      "legend": null
+    }
+  },
+  "layer": [
+    {
+      "mark": {"type": "line", "interpolate": "linear", "strokeWidth": 2}
+    },
+    {
+      "transform": [{"filter": "datum.year == 2022"}],
+      "mark": {"type": "text", "align": "left", "dx": 6, "fontSize": 10},
+      "encoding": {
+        "text": {"field": "Country Name"},
+        "color": {"value": "black"}
+      }
+    }
+  ]
+}
