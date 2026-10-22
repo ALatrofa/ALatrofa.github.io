@@ -19,6 +19,7 @@
         - Tags appear as an opening <div> and closing </div> pair
     -->
 
+
 <head>    
     <!-- The head tag links to resources our page needs and defines information about it. Tags in the <head> aren't displayed on the page. -->
 
@@ -56,10 +57,15 @@
         This page will be Ania's portfolio of charts. It contains data from [insert relevant datasets] and analysis conducted on Python and Vegalite.  
     </h3>
 
+
+<p class="big" style="margin-bottom: 0px; color: #82bab0; font-weight: bold; -webkit-text-stroke: 0.5px black;">
+    CC1
+</p>
+
     <!-- We're organising the page into sections, with each section containing a chart, title and a description -->
     <section>
         <div class="chart-description">
-            <h2>1. GDP and Life Expectancy</h2>
+            <h2>GDP and Life Expectancy</h2>
             <p> <!-- This is a paragraph, it's the main way to display text on a web page -->
                 The first section of the page contains a graph on the relationship between GDP and life expectancy.
                 The data is from the World Bank (countries' GDP) and the UN Population Prospects 2022 (life expectancy).
@@ -73,17 +79,108 @@
 
 <section>
     <div class="chart-description">
-        <h2>2. GDP Per Capita in selected countries</h2>
+        <h2>GDP Per Capita in selected countries</h2>
         <p>
             The following graph shows a time series of GDP per capita in 6 selected countries:
-            China, DRC, India, Nigeria, the United Kingdom and the United States.
+            China, DRC, India, Nigeria, UK and US.
             The analysis covers each year from 1990 to 2022.
         </p>
     </div>
 
-    <figure id="Location2.2"></figure>
+    <figure id="Location2"></figure>
 
     </section>
+
+
+
+
+
+
+
+
+
+
+
+    <p class="big" style="margin-bottom: 0px; color: #82bab0; font-weight: bold; -webkit-text-stroke: 0.5px black;">
+    CC2
+</p>
+
+    <section>
+        <div class="chart-description">
+            <h2>Wine Consumption in Italy</h2>
+            <p>
+                The following graph shows the trend of wine consumption in Italy from 2006 to 2022, as a percentage of total population over 11.
+            </p>
+        </div>
+
+        <figure id="Location3"></figure> 
+
+        </section>
+
+<section>
+    <div class="chart-description">
+        <h2>Japan Exports and Imports</h2>
+        <p>
+            The graph contains the trends of exports and imports in Japan, from 2000 to 2024.
+            As shown by the net trade columns, the country has experienced some fluctuations in its trade balance over the years, often negative in recent years.
+        </p>
+    </div>
+
+    <figure id="Location4"></figure>
+
+    </section>
+
+
+
+
+
+
+    <p class="big" style="margin-bottom: 0px; color: #82bab0; font-weight: bold; -webkit-text-stroke: 0.5px black;">
+    CC3
+</p>
+
+    <section>
+        <div class="chart-description">
+            <h2>Italy GDP Per Capita, by Area</h2>
+            <p>
+                The graph shows the GDP per capita in Italy in 3 years, grouped by geographical area.
+                It highlights the disparities between the Southern and the Central-Northern regions.
+            </p>
+        </div>
+
+        <figure id="Location5"></figure> 
+
+        </section>
+
+<section>
+    <div class="chart-description">
+        <h2>????????</h2>
+        <p>
+            ???????
+        </p>
+    </div>
+
+    <figure id="Location6"></figure>
+
+    </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     <!-- Do you want to add more sections? -->
         <!-- Try copying pasting the section above -->
@@ -95,15 +192,30 @@
     <script>
         // This is a comment in JavaScript - it's a different language to HTML and CSS
 
-        let figure_1_spec = "https://raw.githubusercontent.com/EconomicsObservatory/courses/main/2/s2_chart2.json"; // We're storing the URL of the graph we want to display in a variable
+        let figure_1_spec = "wk1_chart1_new.json"; // We're storing the URL of the graph we want to display in a variable
         // You should have a spec for a graph in this same folder. Just specify its name here, e.g. let figure_1_spec = "chart1.json"
 
         vegaEmbed('#Location1', figure_1_spec) // We're using the vegaEmbed function to put a graph in the element with id figure_1
 
-        let figure_2_spec = "wk1_chart1.json"; // relative path — file must sit next to your HTML page
+        let figure_2_spec = "gdp_pc_chart.json"; // relative path — file must sit next to your HTML page
         vegaEmbed('#Location2', figure_2_spec)        // You should have a spec for a graph in this same folder. Just specify its name here, e.g. let figure_2_spec = "chart2.json"
 
         vegaEmbed('#Location2', figure_2_spec) // We're using the vegaEmbed function to put a graph in the element with id figure_2
+
+
+        let figure_3_spec = "wine_cons_chart.json";
+        vegaEmbed('#Location3', figure_3_spec)
+
+        let figure_4_spec = "jpn_ex_im.json";
+        vegaEmbed('#Location4', figure_4_spec)
+
+        let figure_5_spec = "italy_gdp_pc.json";
+        vegaEmbed('#Location5', figure_5_spec)
+
+        let figure_6_spec = "idk.json";
+        vegaEmbed('#Location6', figure_6_spec)
+
+
 
         // Do you want to add more graphs?
         // try defining a new variable for figure_2_spec, adding VegaEmbed for Location2, and adding a new section in the HTML
