@@ -1,0 +1,67 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "GDP pc divide between Centre-North and South Italy",
+    "subtitle": [
+      "Index values, 2005, 2015 and 2025",
+      "Source: Statista Research Department"
+    ],
+    "subtitleFontSize": 11,
+    "anchor": "start",
+    "color": "black"
+  },
+  "width": "container",
+"height": 300,
+"autosize": {"type": "fit", "contains": "padding"},
+  "padding": {"left": 5, "top": 5, "right": 90, "bottom": 5},
+  "background": null,
+  "view": {"stroke": null},
+  "data": {
+    "values": [
+      {"region": "North-west", "year": 2005, "index": 122},
+      {"region": "North-west", "year": 2015, "index": 124},
+      {"region": "North-west", "year": 2025, "index": 124},
+      {"region": "North-east", "year": 2005, "index": 116},
+      {"region": "North-east", "year": 2015, "index": 119},
+      {"region": "North-east", "year": 2025, "index": 120},
+      {"region": "Central", "year": 2005, "index": 114},
+      {"region": "Central", "year": 2015, "index": 108},
+      {"region": "Central", "year": 2025, "index": 107},
+      {"region": "South", "year": 2005, "index": 67},
+      {"region": "South", "year": 2015, "index": 66},
+      {"region": "South", "year": 2025, "index": 64}
+    ]
+  },
+  "encoding": {
+    "x": {
+      "field": "year",
+      "type": "ordinal",
+      "title": null,
+      "axis": {"grid": false, "labelAngle": 0}
+    },
+    "y": {
+      "field": "index",
+      "type": "quantitative",
+      "title": null,
+      "axis": {"gridOpacity": 0.4, "tickSize": 3, "labelFontSize": 11, "ticks": false, "labelPadding": 5},
+      "scale": {"domain": [55, 135], "nice": false}
+    },
+    "color": {
+      "field": "region",
+      "type": "nominal",
+      "legend": null,
+      "scale": {
+        "domain": ["North-west", "North-east", "Central", "South"],
+        "scheme":"magma"
+      }
+    }
+  },
+  "layer": [
+    {"mark": {"type": "line", "strokeWidth": 3, "point": true}},
+    {
+      "transform": [{"filter": "datum.year == 2025"}],
+      "mark": {"type": "text", "align": "left", "dx": 8, "fontSize": 11},
+      "encoding": {"text": {"field": "region"}, "color": {"value": "black"}}
+    }
+  ]
+}
