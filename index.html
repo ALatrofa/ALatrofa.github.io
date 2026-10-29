@@ -3,33 +3,28 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>PP434 Portfolio | Ania Latrofa</title>
- 
-    <!-- Turns on the scroll-reveal effect only when JavaScript works, so content never stays hidden -->
-    <script>document.documentElement.classList.add('js');</script>
- 
+    <title>Ania Latrofa</title>
+    <meta name="description" content="Data visualisation and public policy projects by Ania Latrofa, MPA in Data Science for Public Policy at LSE.">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;700;800&display=swap" rel="stylesheet">
- 
-    <!-- Vega-Lite packages used to draw the charts -->
-    <script src="https://cdn.jsdelivr.net/npm/vega@6.4.0"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vega-lite@6.4.3"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vega-embed@7.3.0"></script>
- 
-    <!-- This page is self-contained, so it does not load styles.css -->
+
+    <!-- This page is self-contained, so it does not load styles.css.
+         Your chart pages (portfolio.html etc.) keep using styles.css as before. -->
     <style>
         :root {
-            --bg: #edf3f1;          /* faded teal background (same as the home page) */
+            /* Page colours. To match your chart pages exactly, replace --bg with the
+               background colour used in styles.css. */
+            --bg: #edf3f1;          /* faded teal background */
             --ink: #1d3445;         /* faded marine blue, main text */
             --ink-soft: #3f566a;    /* secondary text */
-            --teal: #82bab0;        /* accent used for the CC labels */
-            --pad: max(1.25rem, calc((100vw - 68rem) / 2));
+            --gap: 1rem;
+            --pad: max(1.25rem, calc((100vw - 68rem) / 2));  /* aligns content and tiles */
         }
- 
+
         * { box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
- 
+
         body {
             margin: 0;
             background: var(--bg);
@@ -38,11 +33,16 @@
             line-height: 1.55;
             -webkit-font-smoothing: antialiased;
         }
- 
+
         a { color: inherit; }
-        a:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
- 
-        /* ---------- Top bar ---------- */
+
+        a:focus-visible,
+        button:focus-visible {
+            outline: 3px solid var(--ink);
+            outline-offset: 3px;
+        }
+
+        /* ---------- Top bar (stays visible while scrolling) ---------- */
         .site-header {
             position: sticky;
             top: 0;
@@ -55,7 +55,11 @@
             -webkit-backdrop-filter: blur(8px);
             backdrop-filter: blur(8px);
         }
-        .site-header .brand { font-weight: 800; letter-spacing: -0.01em; text-decoration: none; }
+        .site-header .brand {
+            font-weight: 800;
+            letter-spacing: -0.01em;
+            text-decoration: none;
+        }
         .site-header nav { display: flex; gap: 1.25rem; }
         .site-header nav a { color: var(--ink-soft); text-decoration: none; }
         .site-header nav a:hover {
@@ -63,239 +67,273 @@
             text-decoration: underline;
             text-underline-offset: 4px;
         }
- 
+
         /* ---------- Intro ---------- */
-        .hero { padding: clamp(3rem, 9vw, 6rem) var(--pad) clamp(1.5rem, 4vw, 2.5rem); }
+        .hero { padding: clamp(3rem, 10vw, 7rem) var(--pad) clamp(2.5rem, 6vw, 4rem); }
         .hero h1 {
             margin: 0;
-            font-size: clamp(2.8rem, 8vw, 6rem);
-            line-height: 0.98;
+            font-size: clamp(3.2rem, 10vw, 7.5rem);
+            line-height: 0.95;
             font-weight: 800;
             letter-spacing: -0.035em;
         }
         .hero p {
-            max-width: 36rem;
-            margin: 1.25rem 0 0;
-            font-size: clamp(1.05rem, 2.2vw, 1.25rem);
+            max-width: 34rem;
+            margin: 1.5rem 0 0;
+            font-size: clamp(1.05rem, 2.2vw, 1.3rem);
             color: var(--ink-soft);
         }
- 
-        /* ---------- Group label (CC1, CC2, ...) ---------- */
-        .group {
-            scroll-margin-top: 4.5rem;
-            margin: clamp(3rem, 8vw, 5.5rem) var(--pad) 0;
-            font-size: clamp(3rem, 9vw, 6rem);
-            line-height: 1;
-            font-weight: 800;
-            letter-spacing: -0.03em;
-            color: var(--teal);
-            -webkit-text-stroke: 1px var(--ink);
+
+        /* ---------- Scroll menu ---------- */
+        .projects-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            padding: 0 var(--pad) 1rem;
         }
- 
-        /* ---------- One chart + its text ---------- */
-        .piece {
-            display: grid;
-            grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
-            gap: clamp(1.5rem, 4vw, 3.5rem);
-            align-items: start;
-            margin: 0 var(--pad);
-            padding: clamp(2rem, 5vw, 3.5rem) 0;
-            border-top: 1px solid rgba(29, 52, 69, 0.14);
-        }
-        .group + .piece { border-top: 0; }
- 
-        .piece-text h3 {
+        .projects-head h2 {
             margin: 0;
-            font-size: clamp(1.4rem, 3vw, 1.8rem);
-            line-height: 1.15;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+        }
+        .rail-controls { display: flex; gap: 0.5rem; }
+        .rail-btn {
+            display: grid;
+            place-items: center;
+            width: 2.75rem;
+            height: 2.75rem;
+            border-radius: 50%;
+            border: 1.5px solid var(--ink);
+            background: transparent;
+            color: var(--ink);
+            cursor: pointer;
+        }
+        .rail-btn:hover:not(:disabled) { background: var(--ink); color: var(--bg); }
+        .rail-btn:disabled { opacity: 0.3; cursor: default; }
+        .rail-btn svg { width: 1.1rem; height: 1.1rem; }
+
+        .rail {
+            list-style: none;
+            margin: 0;
+            padding: 0 var(--pad) 1rem;
+            display: flex;
+            gap: var(--gap);
+            overflow-x: auto;
+            scroll-snap-type: x proximity;
+            scroll-padding-inline: var(--pad);
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+        }
+        .rail::-webkit-scrollbar { display: none; }
+        .rail > li { flex: 0 0 auto; scroll-snap-align: start; }
+
+        .tile {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: clamp(16rem, 78vw, 21rem);
+            height: clamp(22rem, 56vh, 28rem);
+            padding: 1.4rem;
+            border-radius: 1.25rem;
+            background: var(--tile-bg);
+            color: var(--ink);
+            text-decoration: none;
+            transition: transform 0.25s ease;
+        }
+        .tile:hover { transform: translateY(-4px); }
+
+        .tile-tag {
+            align-self: flex-start;
+            padding: 0.2rem 0.7rem;
+            border: 1.5px solid currentColor;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .tile-art {
+            align-self: center;
+            width: 100%;
+            height: auto;
+            color: var(--tile-art);
+        }
+        .tile-title {
+            display: block;
+            font-size: 1.65rem;
             font-weight: 800;
+            line-height: 1.1;
             letter-spacing: -0.02em;
         }
-        .piece-text p {
-            max-width: 30rem;
-            margin: 0.75rem 0 0;
+        .tile-desc {
+            display: block;
+            margin-top: 0.4rem;
+            font-size: 1rem;
             color: var(--ink-soft);
         }
- 
-        .piece-chart {
-    margin: 0;
-    padding: 0;
-    min-height: 18rem;
-    overflow-x: auto;
-}
-        .piece-chart .vega-embed { width: 100%; }
- 
-        @media (max-width: 52rem) {
-            .piece { grid-template-columns: 1fr; }
+
+        /* Tile colours (faded versions of your teal, blue and the red used for the South) */
+        .tile--teal { --tile-bg: #cfe3de; --tile-art: #4b8a7e; }
+        .tile--blue { --tile-bg: #d9e3ec; --tile-art: #47698a; }
+        .tile--navy { --tile-bg: #1d3445; --tile-art: #82bab0; color: #edf3f1; }
+        .tile--navy .tile-desc { color: #b9ccd3; }
+        .tile--rose { --tile-bg: #efdcd6; --tile-art: #b0645a; }
+        .tile--empty {
+            --tile-bg: transparent;
+            --tile-art: #8aa3a0;
+            border: 2px dashed #8aa3a0;
         }
- 
+
         /* ---------- Footer ---------- */
         .site-footer {
             padding: 3rem var(--pad) 2.5rem;
-            color: var(--ink-soft);
             font-size: 0.95rem;
+            color: var(--ink-soft);
         }
         .site-footer a { margin-right: 1.25rem; }
- 
-        /* ---------- Scroll reveal: content fades in as it enters the screen ---------- */
-        .js .reveal {
-            opacity: 0;
-            transform: translateY(28px);
-            transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
-        }
-        .js .reveal.is-visible { opacity: 1; transform: none; }
-        .js .piece-chart.reveal { transition-delay: 0.12s; }
- 
+
         @media (prefers-reduced-motion: reduce) {
-            html { scroll-behavior: auto; }
-            .js .reveal { opacity: 1; transform: none; transition: none; }
+            .tile { transition: none; }
+            .tile:hover { transform: none; }
         }
     </style>
 </head>
- 
+
 <body>
- 
+
     <header class="site-header">
         <a class="brand" href="index.html">Ania Latrofa</a>
-        <nav aria-label="Jump to">
-            <a href="#cc1">CC1</a>
-            <a href="#cc2">CC2</a>
-            <a href="#cc3">CC3</a>
-            <!-- NEW GROUP? Add a link here, e.g. <a href="#cc4">CC4</a> -->
+        <nav aria-label="Main">
+            <a href="#projects">Projects</a>
+            <a href="https://www.linkedin.com/in/ania-latrofa/">LinkedIn</a>
+            <a href="https://www.github.com/ALatrofa">GitHub</a>
         </nav>
     </header>
- 
+
     <main>
         <section class="hero">
-            <h1>PP434 Portfolio</h1>
+            <h1>Ania Latrofa</h1>
             <p>
-                Charts and analysis from PP434, made with Python and Vega-Lite.
-                Each chart cites its own data source.
+                Hi, I'm Ania, a second-year student on the MPA in Data Science for Public Policy at LSE.
+                Here you'll find my personal projects, including my PP434 portfolio and final project.
             </p>
         </section>
- 
-        <!-- ===================== CC1 ===================== -->
-        <h2 class="group reveal" id="cc1">CC1</h2>
- 
-        <section class="piece">
-            <div class="piece-text reveal">
-                <h3>GDP and Life Expectancy</h3>
-                <p>
-                    The first graph looks at the relationship between GDP and life expectancy.
-                    The data is from the World Bank (countries' GDP) and the UN Population Prospects 2022 (life expectancy).
-                </p>
+
+        <section id="projects" aria-labelledby="projects-title">
+            <div class="projects-head">
+                <h2 id="projects-title">Explore my work</h2>
+                <div class="rail-controls">
+                    <button class="rail-btn" id="rail-prev" type="button" aria-label="Previous projects">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+                    </button>
+                    <button class="rail-btn" id="rail-next" type="button" aria-label="Next projects">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+                    </button>
+                </div>
             </div>
-            <figure class="piece-chart reveal" id="Location1"></figure>
+
+            <ul class="rail" id="rail">
+
+                <!-- PP434 portfolio -->
+                <li>
+                    <a class="tile tile--teal" href="portfolio.html">
+                        <span class="tile-tag">PP434</span>
+                        <svg class="tile-art" viewBox="0 0 240 120" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M6 108 L56 106 L106 104 L156 100 L206 98 L234 96" opacity="0.35"/>
+                            <path d="M6 76 L56 70 L106 60 L156 58 L206 40 L234 36" opacity="0.6"/>
+                            <path d="M6 96 L56 88 L106 92 L156 62 L206 52 L234 30"/>
+                        </svg>
+                        <span>
+                            <strong class="tile-title">Portfolio</strong>
+                            <span class="tile-desc">Selected charts and analysis.</span>
+                        </span>
+                    </a>
+                </li>
+
+                <!-- PP434 final project -->
+                <li>
+                    <a class="tile tile--navy" href="final_project.html">
+                        <span class="tile-tag">PP434</span>
+                        <svg class="tile-art" viewBox="0 0 240 120" fill="currentColor" aria-hidden="true">
+                            <rect x="14" y="72" width="30" height="40" rx="3" opacity="0.5"/>
+                            <rect x="62" y="50" width="30" height="62" rx="3" opacity="0.65"/>
+                            <rect x="110" y="62" width="30" height="50" rx="3" opacity="0.8"/>
+                            <rect x="158" y="28" width="30" height="84" rx="3"/>
+                            <rect x="206" y="42" width="30" height="70" rx="3" opacity="0.8"/>
+                        </svg>
+                        <span>
+                            <strong class="tile-title">Final project</strong>
+                            <span class="tile-desc">Migration to the EU from non-EU countries.</span>
+                        </span>
+                    </a>
+                </li>
+
+                <!-- OTHER PROJECTS: personal work outside the course.
+                     To add another project, copy one whole <li>...</li> block, then change the
+                     href, the tag, the title and the description. -->
+                <li>
+                    <a class="tile tile--rose" href="week1.html">
+                        <span class="tile-tag">Personal</span>
+                        <svg class="tile-art" viewBox="0 0 240 120" fill="currentColor" aria-hidden="true">
+                            <circle cx="30" cy="84" r="8" opacity="0.5"/>
+                            <circle cx="70" cy="60" r="10" opacity="0.7"/>
+                            <circle cx="108" cy="92" r="6" opacity="0.5"/>
+                            <circle cx="140" cy="44" r="13"/>
+                            <circle cx="184" cy="70" r="8" opacity="0.7"/>
+                            <circle cx="214" cy="32" r="6" opacity="0.5"/>
+                        </svg>
+                        <span>
+                            <strong class="tile-title">Personal projects</strong>
+                            <span class="tile-desc">Short description of your first project.</span>
+                        </span>
+                    </a>
+                </li>
+
+                <!-- TEMPLATE for a new tile (remove the comment markers to use it):
+                <li>
+                    <a class="tile tile--teal" href="your_page.html">
+                        <span class="tile-tag">Tag</span>
+                        <span>
+                            <strong class="tile-title">Project title</strong>
+                            <span class="tile-desc">One line about it.</span>
+                        </span>
+                    </a>
+                </li>
+                -->
+
+            </ul>
         </section>
- 
-        <section class="piece">
-            <div class="piece-text reveal">
-                <h3>GDP Per Capita in selected countries</h3>
-                <p>
-                    The following graph shows a time series of GDP per capita in 6 selected countries:
-                    China, DRC, India, Nigeria, UK and US.
-                    The analysis covers each year from 1990 to 2022.
-                </p>
-            </div>
-            <figure class="piece-chart reveal" id="Location2"></figure>
-        </section>
- 
-        <!-- ===================== CC2 ===================== -->
-        <h2 class="group reveal" id="cc2">CC2</h2>
- 
-        <section class="piece">
-            <div class="piece-text reveal">
-                <h3>Wine Consumption in Italy</h3>
-                <p>
-                    The following graph shows the trend of wine consumption in Italy from 2006 to 2022,
-                    as a percentage of the total population over 11.
-                </p>
-            </div>
-            <figure class="piece-chart reveal" id="Location3"></figure>
-        </section>
- 
-        <section class="piece">
-            <div class="piece-text reveal">
-                <h3>Japan Exports and Imports</h3>
-                <p>
-                    The graph shows the trends of exports and imports in Japan, from 2000 to 2024.
-                    As shown by the net trade columns, the country has experienced some fluctuations
-                    in its trade balance over the years, often negative in recent years.
-                </p>
-            </div>
-            <figure class="piece-chart reveal" id="Location4"></figure>
-        </section>
- 
-        <!-- ===================== CC3 ===================== -->
-        <h2 class="group reveal" id="cc3">CC3</h2>
- 
-        <section class="piece">
-            <div class="piece-text reveal">
-                <h3>Italy GDP Per Capita, by Area</h3>
-                <p>
-                    The graph shows the GDP per capita in Italy in 3 years, grouped by geographical area.
-                    It highlights the disparities between the Southern and the Central-Northern regions.
-                </p>
-            </div>
-            <figure class="piece-chart reveal" id="Location5"></figure>
-        </section>
- 
-        <!-- NEXT CHART (the cohesion funds one): remove the comment markers once the json file exists,
-             then add a matching line to the "charts" list in the script at the bottom.
-        <section class="piece">
-            <div class="piece-text reveal">
-                <h3>Title of the chart</h3>
-                <p>One or two sentences on what the chart shows and where the data comes from.</p>
-            </div>
-            <figure class="piece-chart reveal" id="Location6"></figure>
-        </section>
-        -->
- 
-        <!-- TO ADD A NEW GROUP (CC4, ...): copy an <h2 class="group reveal" id="cc4">CC4</h2> line
-             and the <section class="piece"> blocks under it, and give every figure a new unique id. -->
     </main>
- 
+
     <footer class="site-footer">
-        <a href="index.html">Home</a>
         <a href="https://www.linkedin.com/in/ania-latrofa/">LinkedIn</a>
         <a href="https://www.github.com/ALatrofa">GitHub</a>
     </footer>
- 
+
     <script>
-        // 1) Charts: each line is "figure id": "json file next to this page".
-        //    To add a chart, add a line here and a matching <figure id="..."> in the page above.
-        const charts = {
-            "Location1": "wk1_chart1_new.json",
-            "Location2": "gdp_pc_chart.json",
-            "Location3": "wine_cons_chart.json",
-            "Location4": "jpn_ex_im.json",
-            "Location5": "italy_gdp_pc.json"
-            // "Location6": "your_new_chart.json"
-        };
- 
-        for (const [id, spec] of Object.entries(charts)) {
-            vegaEmbed('#' + id, spec).catch((error) => {
-                console.error('Could not load ' + spec, error);
-                document.getElementById(id).textContent = 'This chart could not be loaded.';
-            });
+        // Arrow buttons scroll the tile menu; they switch off at either end.
+        const rail = document.getElementById('rail');
+        const prev = document.getElementById('rail-prev');
+        const next = document.getElementById('rail-next');
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        function step() {
+            const tile = rail.querySelector('li');
+            return tile.getBoundingClientRect().width + 16;   // tile width + gap
         }
- 
-        // 2) Scroll reveal: sections fade in the first time they come into view.
-        const revealItems = document.querySelectorAll('.reveal');
-        if ('IntersectionObserver' in window) {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('is-visible');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
-            revealItems.forEach((item) => observer.observe(item));
-        } else {
-            revealItems.forEach((item) => item.classList.add('is-visible'));
+        function scrollRail(direction) {
+            rail.scrollBy({ left: direction * step(), behavior: reduceMotion ? 'auto' : 'smooth' });
         }
+        function updateButtons() {
+            prev.disabled = rail.scrollLeft <= 4;
+            next.disabled = rail.scrollLeft + rail.clientWidth >= rail.scrollWidth - 4;
+        }
+
+        prev.addEventListener('click', () => scrollRail(-1));
+        next.addEventListener('click', () => scrollRail(1));
+        rail.addEventListener('scroll', updateButtons, { passive: true });
+        window.addEventListener('resize', updateButtons);
+        updateButtons();
     </script>
- 
+
 </body>
 </html>
