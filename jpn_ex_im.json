@@ -1,0 +1,80 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Exports, Imports and Net Trade",
+    "anchor": "start",
+    "subtitle": ["Current US$ billion",
+    "Source: JSB (WB) through ECO API"],
+    "fontSize": 14,
+    "subtitleFontSize": 12,
+    "color": "#000000",
+    "subtitleColor": "#000000"
+  },
+  "height": 300,
+  "width": "container",
+  "autosize": {"type": "fit", "contains": "padding"},
+  "background": null,
+  "view": {"fill": null, "strokeOpacity": 0},
+  "data": {
+    "url": "https://api.economicsobservatory.com/jpn/expo?vega",
+    "format": {"type": "json"}
+  },
+  "transform": [
+    {
+      "lookup": "date",
+      "from": {
+        "data": {
+          "url": "https://api.economicsobservatory.com/jpn/impo?vega",
+          "format": {"type": "json"}
+        },
+        "key": "date",
+        "fields": ["value"]
+      },
+      "as": ["imports"]
+    },
+    {"calculate": "utcyear(toDate(datum.date))", "as": "year"},
+    {"filter": "datum.year >= 2000"},
+    {"calculate": "datum.value / 1e9", "as": "Exports"},
+    {"calculate": "datum.imports / 1e9", "as": "Imports"},
+    {"calculate": "datum.Exports - datum.Imports", "as": "Net"},
+    {"fold": ["Exports", "Imports", "Net"], "as": ["Series", "bn"]},
+    {"calculate": "datum.Series == 'Net' ? 'Net trade' : datum.Series", "as": "Series"}
+  ],
+  "layer": [
+    {
+      "mark": {"type": "bar"},
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "ordinal",
+          "axis": {
+            "title": "",
+            "grid": false,
+            "labelAngle": 0,
+            "labelExpr": "datum.value % 4 == 0 ? datum.label : ''"
+          }
+        },
+        "xOffset": {"field": "Series"},
+        "y": {
+          "field": "bn",
+          "type": "quantitative",
+          "axis": {"title": "", "gridOpacity": 0.4, "tickSize": 3, "labelFontSize": 11, "ticks": false, "labelPadding": 5}
+        },
+        "color": {
+          "field": "Series",
+          "type": "nominal",
+          "scale": {
+            "domain": ["Exports", "Imports", "Net trade"],
+            "range": ["#fbb4ae", "#ccebc5", "#fff2ae"]
+          },
+          "legend": {"title": null, "orient": "top-left"}
+        },
+        "tooltip": [
+          {"field": "Series", "title": "Series"},
+          {"field": "year", "type": "ordinal", "title": "Year"},
+          {"field": "bn", "type": "quantitative", "title": "US$ billion", "format": ",.1f"}
+        ]
+      }
+    }
+  ]
+}
