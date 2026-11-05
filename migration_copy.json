@@ -1,0 +1,48 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {"text": "Total number of international immigrants, 2024", "anchor": "start"},
+  "width": "container", "height": 300, "background": null, "view": {"stroke": null},
+  "data": {
+    "url": "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json",
+    "format": {"type": "topojson", "feature": "countries"}
+  },
+  "transform": [
+    {"calculate": "toNumber(datum.id)", "as": "id"},
+    {"filter": "datum.id != 10"},
+    {"lookup": "id", "from": {"key": "id", "fields": ["immigrants"], "data": {"values": [
+          {"id":4,"immigrants":98110}, {"id":8,"immigrants":46377}, {"id":12,"immigrants":259458}, {"id":24,"immigrants":676507}, {"id":31,"immigrants":218460}, {"id":32,"immigrants":1958039}, {"id":36,"immigrants":8111404}, {"id":40,"immigrants":2327064}, {"id":44,"immigrants":67285}, {"id":50,"immigrants":2906338},
+          {"id":51,"immigrants":274645}, {"id":56,"immigrants":2349032}, {"id":64,"immigrants":55705}, {"id":68,"immigrants":183234}, {"id":70,"immigrants":34120}, {"id":72,"immigrants":116402}, {"id":76,"immigrants":1406299}, {"id":84,"immigrants":68706}, {"id":90,"immigrants":2469}, {"id":96,"immigrants":119933},
+          {"id":100,"immigrants":299100}, {"id":104,"immigrants":79052}, {"id":108,"immigrants":387101}, {"id":112,"immigrants":1054604}, {"id":116,"immigrants":83925}, {"id":120,"immigrants":642948}, {"id":124,"immigrants":8805839}, {"id":140,"immigrants":94556}, {"id":144,"immigrants":40698}, {"id":148,"immigrants":1269673},
+          {"id":152,"immigrants":1538324}, {"id":156,"immigrants":1638718}, {"id":158,"immigrants":1136425}, {"id":170,"immigrants":3063518}, {"id":178,"immigrants":385589}, {"id":180,"immigrants":1085090}, {"id":188,"immigrants":628404}, {"id":191,"immigrants":527831}, {"id":192,"immigrants":2144}, {"id":196,"immigrants":202062},
+          {"id":203,"immigrants":1025199}, {"id":204,"immigrants":418202}, {"id":208,"immigrants":847475}, {"id":214,"immigrants":738667}, {"id":218,"immigrants":747749}, {"id":222,"immigrants":43342}, {"id":226,"immigrants":248930}, {"id":231,"immigrants":1168455}, {"id":232,"immigrants":12512}, {"id":233,"immigrants":203046},
+          {"id":238,"immigrants":2333}, {"id":242,"immigrants":14362}, {"id":246,"immigrants":514432}, {"id":250,"immigrants":9186757}, {"id":262,"immigrants":125996}, {"id":266,"immigrants":449746}, {"id":268,"immigrants":81582}, {"id":270,"immigrants":236137}, {"id":275,"immigrants":272481}, {"id":276,"immigrants":16750084},
+          {"id":288,"immigrants":532286}, {"id":300,"immigrants":1423964}, {"id":304,"immigrants":5812}, {"id":320,"immigrants":92732}, {"id":324,"immigrants":117416}, {"id":328,"immigrants":54175}, {"id":332,"immigrants":19581}, {"id":340,"immigrants":39901}, {"id":348,"immigrants":689565}, {"id":352,"immigrants":98818},
+          {"id":356,"immigrants":4796255}, {"id":360,"immigrants":445726}, {"id":364,"immigrants":3840654}, {"id":368,"immigrants":370980}, {"id":372,"immigrants":1216237}, {"id":376,"immigrants":2091569}, {"id":380,"immigrants":6553671}, {"id":384,"immigrants":2880839}, {"id":388,"immigrants":24007}, {"id":392,"immigrants":3409529},
+          {"id":398,"immigrants":2089797}, {"id":400,"immigrants":5280168}, {"id":404,"immigrants":992536}, {"id":408,"immigrants":50439}, {"id":410,"immigrants":1811507}, {"id":414,"immigrants":3323191}, {"id":417,"immigrants":194816}, {"id":418,"immigrants":51446}, {"id":422,"immigrants":1422583}, {"id":426,"immigrants":15039},
+          {"id":428,"immigrants":220471}, {"id":430,"immigrants":72423}, {"id":434,"immigrants":897751}, {"id":440,"immigrants":175194}, {"id":442,"immigrants":344309}, {"id":450,"immigrants":38625}, {"id":454,"immigrants":186719}, {"id":458,"immigrants":3806514}, {"id":466,"immigrants":545323}, {"id":478,"immigrants":195937},
+          {"id":484,"immigrants":1726089}, {"id":496,"immigrants":22589}, {"id":498,"immigrants":188207}, {"id":499,"immigrants":92237}, {"id":504,"immigrants":111069}, {"id":508,"immigrants":353143}, {"id":512,"immigrants":2283366}, {"id":516,"immigrants":116035}, {"id":524,"immigrants":470719}, {"id":528,"immigrants":2956518},
+          {"id":540,"immigrants":76738}, {"id":548,"immigrants":3315}, {"id":554,"immigrants":1467989}, {"id":558,"immigrants":43757}, {"id":562,"immigrants":449236}, {"id":566,"immigrants":1403281}, {"id":578,"immigrants":1012404}, {"id":586,"immigrants":4175958}, {"id":591,"immigrants":477749}, {"id":598,"immigrants":31171},
+          {"id":600,"immigrants":180837}, {"id":604,"immigrants":1837219}, {"id":608,"immigrants":87212}, {"id":616,"immigrants":1739901}, {"id":620,"immigrants":1127184}, {"id":624,"immigrants":15064}, {"id":626,"immigrants":8303}, {"id":630,"immigrants":223323}, {"id":634,"immigrants":2337000}, {"id":642,"immigrants":655579},
+          {"id":643,"immigrants":7605774}, {"id":646,"immigrants":513316}, {"id":682,"immigrants":13683841}, {"id":686,"immigrants":281867}, {"id":688,"immigrants":712550}, {"id":694,"immigrants":49997}, {"id":703,"immigrants":323991}, {"id":704,"immigrants":326418}, {"id":705,"immigrants":315122}, {"id":706,"immigrants":77972},
+          {"id":710,"immigrants":2631100}, {"id":716,"immigrants":429108}, {"id":724,"immigrants":8870527}, {"id":728,"immigrants":914001}, {"id":729,"immigrants":2397113}, {"id":732,"immigrants":5628}, {"id":740,"immigrants":51902}, {"id":748,"immigrants":33268}, {"id":752,"immigrants":2272158}, {"id":756,"immigrants":2773840},
+          {"id":760,"immigrants":896042}, {"id":762,"immigrants":276777}, {"id":764,"immigrants":3179399}, {"id":768,"immigrants":281994}, {"id":780,"immigrants":113478}, {"id":784,"immigrants":8157000}, {"id":788,"immigrants":63201}, {"id":792,"immigrants":7083501}, {"id":795,"immigrants":193763}, {"id":800,"immigrants":2057759},
+          {"id":804,"immigrants":5064173}, {"id":807,"immigrants":150902}, {"id":818,"immigrants":1139820}, {"id":826,"immigrants":11845479}, {"id":834,"immigrants":462371}, {"id":840,"immigrants":52375047}, {"id":854,"immigrants":739820}, {"id":858,"immigrants":160064}, {"id":860,"immigrants":1154963}, {"id":862,"immigrants":1263304},
+          {"id":887,"immigrants":392997}, {"id":894,"immigrants":249205}
+    ]}}},
+    {"calculate": "isValid(datum.immigrants) ? (datum.immigrants >= 10000) + (datum.immigrants >= 30000) + (datum.immigrants >= 100000) + (datum.immigrants >= 300000) + (datum.immigrants >= 1000000) + (datum.immigrants >= 3000000) + (datum.immigrants >= 10000000) : null", "as": "class"}
+  ],
+  "projection": {"type": "naturalEarth1"},
+  "mark": {"type": "geoshape", "stroke": "white", "strokeWidth": 0.4, "invalid": null},
+  "encoding": {
+    "color": {
+      "field": "class", "type": "ordinal",
+      "scale": {"domain": [0, 1, 2, 3, 4, 5, 6, 7], "range": ["#ffffdd", "#eff8b9", "#cee8b9", "#91cbbc", "#64b4c2", "#468fbc", "#335da3", "#152b7f"]},
+      "condition": {"test": "!isValid(datum.class)", "value": "#ececec"},
+      "legend": {
+        "title": "Number of immigrants", "orient": "bottom", "columns": 4, "symbolType": "square",
+        "labelExpr": "['under 10k', '10k to 30k', '30k to 100k', '100k to 300k', '300k to 1M', '1M to 3M', '3M to 10M', '10M or more'][datum.value]"
+      }
+    },
+    "tooltip": [{"field": "properties.name", "title": "Country"}, {"field": "immigrants", "type": "quantitative", "format": ",d", "title": "Immigrants"}]
+  }
+}
