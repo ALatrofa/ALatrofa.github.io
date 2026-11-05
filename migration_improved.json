@@ -64,9 +64,9 @@
   "projections": [
     {
       "name": "projection",
-      "type": "naturalEarth1",
-      "scale": {"signal": "width / 5.3 * zoom"},
-      "translate": [{"signal": "width / 2 + pan[0]"}, {"signal": "height * 0.56 + pan[1]"}]
+      "type": "equalEarth",
+      "scale": {"signal": "width / 5.5 * zoom"},
+      "translate": [{"signal": "width / 2 + pan[0]"}, {"signal": "height * 0.55 + pan[1]"}]
     }
   ],
   "scales": [
